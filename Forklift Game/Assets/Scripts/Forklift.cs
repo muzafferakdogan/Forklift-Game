@@ -17,15 +17,16 @@ public class Forklift : MonoBehaviour
     [SerializeField] private WheelCollider leftFrontWheelCollider;
     [SerializeField] private WheelCollider rightBackWheelCollider;
     [SerializeField] private WheelCollider rightFrontWheelCollider;
+    [SerializeField] private WheelCollider steeringWheelCollider;
 
     [SerializeField] private Transform leftBackWheelTransform;
     [SerializeField] private Transform leftFrontWheelTransform;
     [SerializeField] private Transform rightBackWheelTransform;
     [SerializeField] private Transform rightFrontWheelTransform;
 
-    [SerializeField] private GameObject leftFrontWheel;
-    [SerializeField] private GameObject rightFrontWheel;
+    [SerializeField] private GameObject steeringWheel;
 
+    Vector3 steeringWheelVector;
 
     void Start()
     {
@@ -36,8 +37,9 @@ public class Forklift : MonoBehaviour
     void Update()
     {
         getUserInput();
-        moveAndRotateToCar();
+        moveAndRotateTheCar();
         rotateTheWheels();
+        rotateTheSteeringWheel();
     }
 
     void getUserInput()
@@ -47,13 +49,16 @@ public class Forklift : MonoBehaviour
         brake = Input.GetKey(KeyCode.Space);
     }
 
-    void moveAndRotateToCar()
+    void moveAndRotateTheCar()
     {
         leftFrontWheelCollider.motorTorque = vertical * motorPower;
         rightFrontWheelCollider.motorTorque = vertical * motorPower;
+        leftBackWheelCollider.motorTorque = vertical * motorPower;
+        rightBackWheelCollider.motorTorque = vertical * motorPower;
 
         leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
         rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
+        steeringWheelCollider.steerAngle = horizontal * rotationalPower;
 
         currentBrakePower = brake ? brakePower : 0f;
         if (brake)
@@ -74,13 +79,13 @@ public class Forklift : MonoBehaviour
     
     void rotateTheWheels()
     {
-        rotateTheWheelsethod(leftBackWheelCollider, leftBackWheelTransform);
-        rotateTheWheelsethod(leftFrontWheelCollider, leftFrontWheelTransform);
-        rotateTheWheelsethod(rightBackWheelCollider, rightBackWheelTransform);
-        rotateTheWheelsethod(rightFrontWheelCollider, rightFrontWheelTransform);
+        rotateTheWheelsMethod(leftBackWheelCollider, leftBackWheelTransform);
+        rotateTheWheelsMethod(leftFrontWheelCollider, leftFrontWheelTransform);
+        rotateTheWheelsMethod(rightBackWheelCollider, rightBackWheelTransform);
+        rotateTheWheelsMethod(rightFrontWheelCollider, rightFrontWheelTransform);
     }
 
-    void rotateTheWheelsethod(WheelCollider wheelCollider , Transform wheelTransform)
+    void rotateTheWheelsMethod(WheelCollider wheelCollider , Transform wheelTransform)
     {
         Vector3 position;
         Quaternion rotation;
@@ -88,6 +93,14 @@ public class Forklift : MonoBehaviour
         wheelCollider.GetWorldPose(out position, out rotation);
         wheelTransform.position = position;
         wheelTransform.rotation = rotation;
+    }
+
+    void rotateTheSteeringWheel()
+    {
+        steeringWheelVector = steeringWheel.transform.localEulerAngles;
+        steeringWheelVector.z = steeringWheelCollider.steerAngle;
+        steeringWheel.transform.localEulerAngles = (-2) * steeringWheelVector;
+
     }
 
 }
