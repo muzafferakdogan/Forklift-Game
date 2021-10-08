@@ -100,7 +100,5 @@ public class Forklift : MonoBehaviour
         steeringWheelVector = steeringWheel.transform.localEulerAngles;
         steeringWheelVector.z = steeringWheelCollider.steerAngle;
         steeringWheel.transform.localEulerAngles = (-2) * steeringWheelVector;
-
     }
-
 }
