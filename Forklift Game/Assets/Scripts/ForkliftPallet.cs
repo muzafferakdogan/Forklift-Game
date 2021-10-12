@@ -45,4 +45,6 @@ public class ForkliftPallet : MonoBehaviour
             palletTransform.transform.localPosition = Vector3.MoveTowards(palletTransform.localPosition, minY, liftPower);
         }       
     }
+
+
 }
