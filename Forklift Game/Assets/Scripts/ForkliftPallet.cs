@@ -23,17 +23,17 @@ public class ForkliftPallet : MonoBehaviour
 
     void Update()
     {
-        getUserPalletInput();
-        mooveThePallet();
+        GetUserPalletInput();
+        MooveThePallet();
     }
 
-    void getUserPalletInput()
+    void GetUserPalletInput()
     {
         up = Input.GetKey(KeyCode.Y);
         down = Input.GetKey(KeyCode.H);
     }
 
-    void mooveThePallet()
+    void MooveThePallet()
     {
         if (up)
         {

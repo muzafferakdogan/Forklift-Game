@@ -51,10 +51,10 @@ public class Forklift : MonoBehaviour
 
     void moveAndRotateTheCar()
     {
-        leftFrontWheelCollider.motorTorque = vertical * motorPower;
-        rightFrontWheelCollider.motorTorque = vertical * motorPower;
-        leftBackWheelCollider.motorTorque = vertical * motorPower;
-        rightBackWheelCollider.motorTorque = vertical * motorPower;
+        leftFrontWheelCollider.motorTorque = vertical * 2 * motorPower;
+        rightFrontWheelCollider.motorTorque = vertical * 2 * motorPower;
+        leftBackWheelCollider.motorTorque = vertical * 2 * motorPower;
+        rightBackWheelCollider.motorTorque = vertical * 2 * motorPower;
 
         leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
         rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
