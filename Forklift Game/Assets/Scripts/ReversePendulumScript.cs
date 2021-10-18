@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PendulumScript : MonoBehaviour
+public class ReversePendulumScript : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] private float mooveSpeed;
@@ -24,12 +24,12 @@ public class PendulumScript : MonoBehaviour
 
     void ChangeMoveDir()
     {
-        if (transform.rotation.z > rightAngel)
+        if (transform.rotation.x > rightAngel)
         {
             moving = false;
         }
 
-        if (transform.rotation.z < leftAngel)
+        if (transform.rotation.x < leftAngel)
         {
             moving = true;
         }
