@@ -33,7 +33,6 @@ public class Forklift : MonoBehaviour
         
     }
 
-
     void Update()
     {
         getUserInput();
@@ -51,10 +50,10 @@ public class Forklift : MonoBehaviour
 
     void moveAndRotateTheCar()
     {
-        leftFrontWheelCollider.motorTorque = vertical * 2 * motorPower;
-        rightFrontWheelCollider.motorTorque = vertical * 2 * motorPower;
-        leftBackWheelCollider.motorTorque = vertical * 2 * motorPower;
-        rightBackWheelCollider.motorTorque = vertical * 2 * motorPower;
+        leftFrontWheelCollider.motorTorque = vertical * motorPower;
+        rightFrontWheelCollider.motorTorque = vertical * motorPower;
+        leftBackWheelCollider.motorTorque = vertical * motorPower;
+        rightBackWheelCollider.motorTorque = vertical * motorPower;
 
         leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
         rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
@@ -99,6 +98,6 @@ public class Forklift : MonoBehaviour
     {
         steeringWheelVector = steeringWheel.transform.localEulerAngles;
         steeringWheelVector.z = steeringWheelCollider.steerAngle;
-        steeringWheel.transform.localEulerAngles = (-2) * steeringWheelVector;
+        steeringWheel.transform.localEulerAngles = steeringWheelVector;
     }
 }
