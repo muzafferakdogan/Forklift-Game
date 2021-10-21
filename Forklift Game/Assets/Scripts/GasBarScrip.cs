@@ -9,21 +9,20 @@ public class GasBarScrip : MonoBehaviour
 
     void Start()
     {
-        
+      
     }
-
     
     void Update()
     {
         
     }
 
-    public void SetMaxGas(int health)
+    public void SetMaxFuel(int health)
     {
-        slider.maxValue = health;
+        slider.maxValue = health; 
     }
 
-    public void SetGas(int health)
+    public void SetFuel(int health)
     {
         slider.value = health;
     }

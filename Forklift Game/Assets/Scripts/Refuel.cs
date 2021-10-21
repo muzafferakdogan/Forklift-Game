@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Refuel : MonoBehaviour
 {
     public int maxAmounth = 100;
-    public int currentAmounth ;
+    public int currentAmounth = 60;
 
-    public GasBarScrip gasBarScript;
+    [SerializeField] private GasBarScrip _gasBarScript;
 
     void Start()
     {
+        _gasBarScript.SetMaxFuel(maxAmounth);
+        _gasBarScript.SetFuel(currentAmounth);
         
-        gasBarScript.SetMaxGas(maxAmounth);
+        InvokeRepeating("ConsumeFuel", 5f, 5f);
     }
 
     void Update()
@@ -22,17 +25,34 @@ public class Refuel : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        /**Debug.Log("çarptý");
-        TakeGas(20);**/
         if (collision.gameObject.name == "Petrol")
         {
-            TakeGas(20);
+            TakeFuel(20);
         }
     }
 
-    private void TakeGas(int gas)
+    private void TakeFuel(int fuel)
     {
-        currentAmounth += gas;
-        gasBarScript.SetGas(currentAmounth);
+        currentAmounth += fuel;
+        _gasBarScript.SetFuel(currentAmounth);
     }
+
+    private void ConsumeFuel()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            currentAmounth -= 10;
+            _gasBarScript.SetFuel(currentAmounth);
+
+            if (currentAmounth <= 0)
+            {
+                RestartGame();
+            }
+        } 
+    }
+    private void RestartGame()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
 }

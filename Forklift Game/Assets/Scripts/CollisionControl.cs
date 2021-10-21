@@ -10,7 +10,7 @@ public class CollisionControl : MonoBehaviour
         RestartGame();
     }
 
-    void RestartGame()
+    private void RestartGame()
     {
         SceneManager.LoadScene("SampleScene");  
     }

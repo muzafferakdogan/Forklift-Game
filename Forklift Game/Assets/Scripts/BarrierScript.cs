@@ -9,7 +9,7 @@ public class BarrierScript : MonoBehaviour
     
     private Vector3 direction;
 
-    int counter = 0;
+    int targetPositionIndex = 0;
 
     void Start()
     {
@@ -18,13 +18,13 @@ public class BarrierScript : MonoBehaviour
     
     void Update()
     {
-        if (Vector3.Distance(targetPosition[counter].position, transform.position) > 0.5f)
+        if (Vector3.Distance(targetPosition[targetPositionIndex].position, transform.position) > 0.5f)
         {
             RotateTheBarrier();
         }
         else
         {
-            counter++;
+            targetPositionIndex++;
             RestToTargetPositionIndex();
             RotateTheBarrier();
         }
@@ -32,15 +32,15 @@ public class BarrierScript : MonoBehaviour
 
     private void RotateTheBarrier()
     {
-        direction = targetPosition[counter].position - transform.position;
+        direction = targetPosition[targetPositionIndex].position - transform.position;
         transform.position += (direction.normalized) * barrierMoveSpeed * Time.deltaTime ;
     }
 
     private void RestToTargetPositionIndex()
     {
-        if (counter == targetPosition.Length)
+        if (targetPositionIndex == targetPosition.Length)
         {
-            counter = 0;
+            targetPositionIndex = 0;
         }
     }
 }
