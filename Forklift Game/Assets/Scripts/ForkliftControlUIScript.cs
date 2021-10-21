@@ -38,27 +38,17 @@ public class ForkliftControlUIScript : MonoBehaviour
 
     void Update()
     {
-        /**Debug.Log(leftBackWheelCollider.motorTorque);**/
-        if (pressGas)
-        {
-            Debug.Log(pressGas);
-            leftFrontWheelCollider.motorTorque = motorPower;
-            rightFrontWheelCollider.motorTorque = motorPower;
-            leftBackWheelCollider.motorTorque = motorPower;
-            rightBackWheelCollider.motorTorque = motorPower;
-            /**Debug.Log(leftBackWheelCollider.motorTorque);**/
-
-        }          
+        MoveTheCar();          
     }
 
     public void BrakeDown()
     {
-
+        pressBrake = true;
     }
 
     public void BrakeExit()
     {
-
+        pressBrake = false;
     }
 
     public void GasDown()
@@ -75,10 +65,23 @@ public class ForkliftControlUIScript : MonoBehaviour
     {
         if (pressGas)
         {
+            leftFrontWheelCollider.brakeTorque = 0;
+            rightFrontWheelCollider.brakeTorque = 0;
+            leftBackWheelCollider.brakeTorque = 0;
+            leftBackWheelCollider.brakeTorque = 0;
+
             leftFrontWheelCollider.motorTorque = motorPower;
             rightFrontWheelCollider.motorTorque = motorPower;
             leftBackWheelCollider.motorTorque = motorPower;
             rightBackWheelCollider.motorTorque = motorPower;
+        }
+
+        if (pressBrake)
+        {
+            leftFrontWheelCollider.brakeTorque = brakePower;
+            rightFrontWheelCollider.brakeTorque = brakePower;
+            leftBackWheelCollider.brakeTorque = brakePower;
+            leftBackWheelCollider.brakeTorque = brakePower;
         }
     }
     void rotateTheWheels()

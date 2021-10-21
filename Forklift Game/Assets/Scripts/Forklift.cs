@@ -57,7 +57,6 @@ public class Forklift : MonoBehaviour
 
         leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
         rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
-       
         steeringWheelCollider.steerAngle = horizontal * rotationalPower;
 
         currentBrakePower = brake ? brakePower : 0f;
