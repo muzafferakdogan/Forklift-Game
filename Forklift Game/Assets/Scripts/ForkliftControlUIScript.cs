@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class ForkliftControlUIScript : MonoBehaviour
 {
-    private float vertical;
-    private float horizontal;
-    private bool brake;
-    private float currentBrakePower;
+    [SerializeField] private Rigidbody rb;
 
-    public bool pressGas;
-    public bool pressBrake;
+    [SerializeField] private bool pressGas;
+    [SerializeField] private bool pressBrake;
+    [SerializeField] private bool pressRight;
+    [SerializeField] private bool pressLeft;
 
     [SerializeField] private float motorPower;
     [SerializeField] private float rotationalPower;
     [SerializeField] private float brakePower;
+    [SerializeField] private float speed;
+    [SerializeField] private float maxSpeed;
 
     [SerializeField] private WheelCollider leftBackWheelCollider;
     [SerializeField] private WheelCollider leftFrontWheelCollider;
@@ -38,7 +39,113 @@ public class ForkliftControlUIScript : MonoBehaviour
 
     void Update()
     {
-        MoveTheCar();          
+        MoveTheCar();
+        RotateTheCar();
+        RotateTheWheels();
+        RotateTheSteeringWheel();
+    }
+
+    private void MoveTheCar()
+    {
+        speed = rb.velocity.sqrMagnitude;
+
+        if (speed < maxSpeed)
+        {
+            if (pressGas)
+            {
+
+                leftFrontWheelCollider.motorTorque = motorPower;
+                rightFrontWheelCollider.motorTorque = motorPower;
+                leftBackWheelCollider.motorTorque = motorPower;
+                rightBackWheelCollider.motorTorque = motorPower;
+            }
+            else
+            {
+                leftFrontWheelCollider.motorTorque = 0f;
+                rightFrontWheelCollider.motorTorque = 0f;
+                leftBackWheelCollider.motorTorque = 0f;
+                rightBackWheelCollider.motorTorque = 0f;
+            }
+        }
+
+        if (pressBrake)
+        {
+            leftFrontWheelCollider.brakeTorque = brakePower;
+            rightFrontWheelCollider.brakeTorque = brakePower;
+            leftBackWheelCollider.brakeTorque = brakePower;
+            leftBackWheelCollider.brakeTorque = brakePower;
+        }
+        else
+        {
+            leftFrontWheelCollider.brakeTorque = 0f;
+            rightFrontWheelCollider.brakeTorque = 0f;
+            leftBackWheelCollider.brakeTorque = 0f;
+            leftBackWheelCollider.brakeTorque = 0f;
+        }
+    }
+
+    private void RotateTheCar()
+    {
+        if (pressRight)
+        {
+            leftBackWheelCollider.steerAngle = rotationalPower;
+            rightBackWheelCollider.steerAngle = rotationalPower;
+            steeringWheelCollider.steerAngle = rotationalPower;
+        }
+        else
+        {
+            leftBackWheelCollider.steerAngle = 0f;
+            rightBackWheelCollider.steerAngle = 0f;
+            steeringWheelCollider.steerAngle = 0f;
+        }
+
+        if (pressRight)
+        {
+            rb.AddTorque(Vector3.up * rotationalPower * 10);
+        }
+        else
+        {
+            rb.AddTorque(Vector3.up * 0);
+        }
+
+        if (pressLeft)
+        {
+            rb.AddTorque(Vector3.down * rotationalPower * -10);
+        }
+    }
+
+    private void RotateTheWheels()
+    {
+        RotateTheWheelsMethod(leftBackWheelCollider, leftBackWheelTransform);
+        RotateTheWheelsMethod(leftFrontWheelCollider, leftFrontWheelTransform);
+        RotateTheWheelsMethod(rightBackWheelCollider, rightBackWheelTransform);
+        RotateTheWheelsMethod(rightFrontWheelCollider, rightFrontWheelTransform);
+    }
+
+    private void RotateTheWheelsMethod(WheelCollider wheelCollider, Transform wheelTransform)
+    {
+        Vector3 position;
+        Quaternion rotation;
+
+        wheelCollider.GetWorldPose(out position, out rotation);
+        wheelTransform.position = position;
+        wheelTransform.rotation = rotation;
+    }
+
+    private void RotateTheSteeringWheel()
+    {
+        steeringWheelVector = steeringWheel.transform.localEulerAngles;
+        steeringWheelVector.z = steeringWheelCollider.steerAngle;
+        steeringWheel.transform.localEulerAngles = steeringWheelVector;
+    }
+    public void GasDown()
+    {
+        pressGas = true;
+    }
+
+    public void GasExit()
+    {
+        pressGas = false;
     }
 
     public void BrakeDown()
@@ -51,91 +158,23 @@ public class ForkliftControlUIScript : MonoBehaviour
         pressBrake = false;
     }
 
-    public void GasDown()
+    public void RightDown()
     {
-        pressGas = true;
+        pressRight = true;
+    }
+ 
+    public void RightExit()
+    {
+        pressRight = false;
     }
 
-    public void GasExit()
+    public void LeftDown()
     {
-        pressGas = false;
+        pressLeft = true;
     }
 
-    private void MoveTheCar()
+    public void LeftExit()
     {
-        if (pressGas)
-        {
-            leftFrontWheelCollider.brakeTorque = 0;
-            rightFrontWheelCollider.brakeTorque = 0;
-            leftBackWheelCollider.brakeTorque = 0;
-            leftBackWheelCollider.brakeTorque = 0;
-
-            leftFrontWheelCollider.motorTorque = motorPower;
-            rightFrontWheelCollider.motorTorque = motorPower;
-            leftBackWheelCollider.motorTorque = motorPower;
-            rightBackWheelCollider.motorTorque = motorPower;
-        }
-
-        if (pressBrake)
-        {
-            leftFrontWheelCollider.brakeTorque = brakePower;
-            rightFrontWheelCollider.brakeTorque = brakePower;
-            leftBackWheelCollider.brakeTorque = brakePower;
-            leftBackWheelCollider.brakeTorque = brakePower;
-        }
+        pressLeft = false;
     }
-    void rotateTheWheels()
-    {
-        rotateTheWheelsMethod(leftBackWheelCollider, leftBackWheelTransform);
-        rotateTheWheelsMethod(leftFrontWheelCollider, leftFrontWheelTransform);
-        rotateTheWheelsMethod(rightBackWheelCollider, rightBackWheelTransform);
-        rotateTheWheelsMethod(rightFrontWheelCollider, rightFrontWheelTransform);
-    }
-
-    void rotateTheWheelsMethod(WheelCollider wheelCollider, Transform wheelTransform)
-    {
-        Vector3 position;
-        Quaternion rotation;
-
-        wheelCollider.GetWorldPose(out position, out rotation);
-        wheelTransform.position = position;
-        wheelTransform.rotation = rotation;
-    }
-
-    void rotateTheSteeringWheel()
-    {
-        steeringWheelVector = steeringWheel.transform.localEulerAngles;
-        steeringWheelVector.z = steeringWheelCollider.steerAngle;
-        steeringWheel.transform.localEulerAngles = steeringWheelVector;
-    }
-
-    void moveAndRotateTheCar()
-    {
-        leftFrontWheelCollider.motorTorque = vertical * motorPower;
-        rightFrontWheelCollider.motorTorque = vertical * motorPower;
-        leftBackWheelCollider.motorTorque = vertical * motorPower;
-        rightBackWheelCollider.motorTorque = vertical * motorPower;
-
-        leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
-        rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
-        
-        steeringWheelCollider.steerAngle = horizontal * rotationalPower;
-
-        currentBrakePower = brake ? brakePower : 0f;
-        if (brake)
-        {
-            leftFrontWheelCollider.brakeTorque = currentBrakePower;
-            rightFrontWheelCollider.brakeTorque = currentBrakePower;
-            leftBackWheelCollider.brakeTorque = currentBrakePower;
-            leftBackWheelCollider.brakeTorque = currentBrakePower;
-        }
-        else
-        {
-            leftFrontWheelCollider.brakeTorque = 0f;
-            rightFrontWheelCollider.brakeTorque = 0f;
-            leftBackWheelCollider.brakeTorque = 0f;
-            leftBackWheelCollider.brakeTorque = 0f;
-        }
-    }
-
 }
