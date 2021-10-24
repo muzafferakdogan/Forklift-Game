@@ -14,6 +14,7 @@ public class ForkliftControl : MonoBehaviour
     [SerializeField] private Rigidbody rb;
 
     public bool pressGas;
+    public bool pressBackGas;
     public bool pressBrake;
     public bool pressRight;
     public bool pressLeft;
@@ -98,13 +99,13 @@ public class ForkliftControl : MonoBehaviour
             leftBackWheelCollider.brakeTorque = 0f;
         }
     }
+
     private void RotateTheCarForKeyboard()
     {
         leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
         rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
         steeringWheelCollider.steerAngle = horizontal * -rotationalPower;
     }
-
 
     private void MoveTheCarForUI()
     {
@@ -126,6 +127,14 @@ public class ForkliftControl : MonoBehaviour
                 rightFrontWheelCollider.motorTorque = 0f;
                 leftBackWheelCollider.motorTorque = 0f;
                 rightBackWheelCollider.motorTorque = 0f;
+            }
+
+            if (pressBackGas)
+            {
+                leftFrontWheelCollider.motorTorque = -motorPower;
+                rightFrontWheelCollider.motorTorque = -motorPower;
+                leftBackWheelCollider.motorTorque = -motorPower;
+                rightBackWheelCollider.motorTorque = -motorPower;
             }
         }
 
@@ -194,14 +203,24 @@ public class ForkliftControl : MonoBehaviour
         steeringWheel.transform.localEulerAngles = steeringWheelVector;
     }
 
-    public void GasDown()
+    public void ForwardGasDown()
     {
         pressGas = true;
     }
 
-    public void GasExit()
+    public void ForwardGasExit()
     {
         pressGas = false;
+    }
+
+    public void BackwardGasDown()
+    {
+        pressBackGas = true;
+    }
+
+    public void BackwardGasExit()
+    {
+        pressBackGas = false;
     }
 
     public void BrakeDown()
