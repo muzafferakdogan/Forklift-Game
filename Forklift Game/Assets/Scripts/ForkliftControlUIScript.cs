@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ControlMode { Keyboard = 1, Touch = 2 };
+
 public class ForkliftControlUIScript : MonoBehaviour
 {
+    private float vertical;
+    private float horizontal;
+    private bool brake;
+    private float currentBrakePower;
+
     [SerializeField] private Rigidbody rb;
 
     [SerializeField] private bool pressGas;
@@ -32,6 +39,9 @@ public class ForkliftControlUIScript : MonoBehaviour
 
     Vector3 steeringWheelVector;
 
+    public ControlMode control;
+    public GameObject UI;
+
     void Start()
     {
 
@@ -39,13 +49,64 @@ public class ForkliftControlUIScript : MonoBehaviour
 
     void Update()
     {
-        MoveTheCar();
-        RotateTheCar();
+        if (control == ControlMode.Keyboard)
+        {
+            GetUserInputForKeyboard();
+            MoveTheCarForKeyboard();
+            RotateTheCarForKeyboard();
+            UI.SetActive (false);
+        }
+
+        else
+        {
+            UI.SetActive(true);
+            MoveTheCarForUI();
+            RotateTheCarForUI();
+        }
+      
         RotateTheWheels();
         RotateTheSteeringWheel();
     }
 
-    private void MoveTheCar()
+    private void GetUserInputForKeyboard()
+    {
+        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
+        brake = Input.GetKey(KeyCode.Space);
+    }
+
+    private void MoveTheCarForKeyboard()
+    {
+        leftFrontWheelCollider.motorTorque = vertical * motorPower;
+        rightFrontWheelCollider.motorTorque = vertical * motorPower;
+        leftBackWheelCollider.motorTorque = vertical * motorPower;
+        rightBackWheelCollider.motorTorque = vertical * motorPower;
+
+        currentBrakePower = brake ? brakePower : 0f;
+        if (brake)
+        {
+            leftFrontWheelCollider.brakeTorque = currentBrakePower;
+            rightFrontWheelCollider.brakeTorque = currentBrakePower;
+            leftBackWheelCollider.brakeTorque = currentBrakePower;
+            leftBackWheelCollider.brakeTorque = currentBrakePower;
+        }
+        else
+        {
+            leftFrontWheelCollider.brakeTorque = 0f;
+            rightFrontWheelCollider.brakeTorque = 0f;
+            leftBackWheelCollider.brakeTorque = 0f;
+            leftBackWheelCollider.brakeTorque = 0f;
+        }
+    }
+    private void RotateTheCarForKeyboard()
+    {
+        leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
+        rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
+        steeringWheelCollider.steerAngle = horizontal * rotationalPower;
+    }
+
+
+    private void MoveTheCarForUI()
     {
         speed = rb.velocity.sqrMagnitude;
 
@@ -84,7 +145,7 @@ public class ForkliftControlUIScript : MonoBehaviour
         }
     }
 
-    private void RotateTheCar()
+    private void RotateTheCarForUI()
     {
         if (pressRight)
         {
@@ -92,6 +153,7 @@ public class ForkliftControlUIScript : MonoBehaviour
             rightBackWheelCollider.steerAngle = rotationalPower;
             steeringWheelCollider.steerAngle = rotationalPower;
         }
+        
         else
         {
             leftBackWheelCollider.steerAngle = 0f;
@@ -99,18 +161,11 @@ public class ForkliftControlUIScript : MonoBehaviour
             steeringWheelCollider.steerAngle = 0f;
         }
 
-        if (pressRight)
-        {
-            rb.AddTorque(Vector3.up * rotationalPower * 10);
-        }
-        else
-        {
-            rb.AddTorque(Vector3.up * 0);
-        }
-
         if (pressLeft)
         {
-            rb.AddTorque(Vector3.down * rotationalPower * -10);
+            leftBackWheelCollider.steerAngle = -rotationalPower;
+            rightBackWheelCollider.steerAngle = -rotationalPower;
+            steeringWheelCollider.steerAngle = -rotationalPower;
         }
     }
 
@@ -138,6 +193,7 @@ public class ForkliftControlUIScript : MonoBehaviour
         steeringWheelVector.z = steeringWheelCollider.steerAngle;
         steeringWheel.transform.localEulerAngles = steeringWheelVector;
     }
+
     public void GasDown()
     {
         pressGas = true;
@@ -157,7 +213,7 @@ public class ForkliftControlUIScript : MonoBehaviour
     {
         pressBrake = false;
     }
-
+    
     public void RightDown()
     {
         pressRight = true;

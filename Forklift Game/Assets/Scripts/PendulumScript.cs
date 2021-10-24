@@ -22,7 +22,7 @@ public class PendulumScript : MonoBehaviour
         Moove();
     }
 
-    void ChangeMoveDir()
+    private void ChangeMoveDir()
     {
         if (transform.rotation.z > rightAngel)
         {
@@ -35,7 +35,7 @@ public class PendulumScript : MonoBehaviour
         }
     }
 
-    void Moove()
+    private void Moove()
     {
         ChangeMoveDir();
 

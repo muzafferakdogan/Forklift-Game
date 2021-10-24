@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyScript : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
     }
