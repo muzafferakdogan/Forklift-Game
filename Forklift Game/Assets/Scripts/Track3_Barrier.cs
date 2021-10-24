@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BarrierScript : MonoBehaviour
+public class Track3_Barrier : MonoBehaviour
 {
     [SerializeField] private Transform[] targetPosition;
     [SerializeField] private float barrierMoveSpeed;

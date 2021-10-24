@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ControlMode { Keyboard = 1, Touch = 2 };
 
-public class ForkliftControlUIScript : MonoBehaviour
+public class ForkliftControl : MonoBehaviour
 {
     private float vertical;
     private float horizontal;
@@ -13,10 +13,10 @@ public class ForkliftControlUIScript : MonoBehaviour
 
     [SerializeField] private Rigidbody rb;
 
-    [SerializeField] private bool pressGas;
-    [SerializeField] private bool pressBrake;
-    [SerializeField] private bool pressRight;
-    [SerializeField] private bool pressLeft;
+    public bool pressGas;
+    public bool pressBrake;
+    public bool pressRight;
+    public bool pressLeft;
 
     [SerializeField] private float motorPower;
     [SerializeField] private float rotationalPower;
@@ -102,7 +102,7 @@ public class ForkliftControlUIScript : MonoBehaviour
     {
         leftBackWheelCollider.steerAngle = horizontal * rotationalPower;
         rightBackWheelCollider.steerAngle = horizontal * rotationalPower;
-        steeringWheelCollider.steerAngle = horizontal * rotationalPower;
+        steeringWheelCollider.steerAngle = horizontal * -rotationalPower;
     }
 
 
@@ -151,7 +151,7 @@ public class ForkliftControlUIScript : MonoBehaviour
         {
             leftBackWheelCollider.steerAngle = rotationalPower;
             rightBackWheelCollider.steerAngle = rotationalPower;
-            steeringWheelCollider.steerAngle = rotationalPower;
+            steeringWheelCollider.steerAngle = -rotationalPower;
         }
         
         else

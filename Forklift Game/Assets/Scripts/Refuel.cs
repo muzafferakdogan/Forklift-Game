@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Refuel : MonoBehaviour
 {
+    private ForkliftControl _forkliftControl;
+
     public int maxAmounth = 100;
     public int currentAmounth = 60;
 
@@ -12,6 +14,7 @@ public class Refuel : MonoBehaviour
 
     void Start()
     {
+        _forkliftControl = GetComponent<ForkliftControl>();
         _gasBarScript.SetMaxFuel(maxAmounth);
         _gasBarScript.SetFuel(currentAmounth);
         
@@ -39,7 +42,7 @@ public class Refuel : MonoBehaviour
 
     private void ConsumeFuel()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || _forkliftControl.pressGas)
         {
             currentAmounth -= 10;
             _gasBarScript.SetFuel(currentAmounth);
