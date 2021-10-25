@@ -42,9 +42,9 @@ public class Refuel : MonoBehaviour
 
     private void ConsumeFuel()
     {
-        if (Input.GetKey(KeyCode.W) || _forkliftControl.pressGas)
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || _forkliftControl.pressGas || _forkliftControl.pressBackGas)
         {
-            currentAmounth -= 10;
+            currentAmounth -= 3;
             _gasBarScript.SetFuel(currentAmounth);
 
             if (currentAmounth <= 0)

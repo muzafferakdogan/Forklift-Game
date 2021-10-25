@@ -7,6 +7,7 @@ public class CollisionControl : MonoBehaviour
 {
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("carpti");
         RestartGame();
     }
 
