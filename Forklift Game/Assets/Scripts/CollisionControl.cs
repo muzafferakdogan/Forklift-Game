@@ -7,11 +7,10 @@ public class CollisionControl : MonoBehaviour
 {
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("carpti");
         RestartGame();
     }
 
-    private void RestartGame()
+    public void RestartGame()
     {
         SceneManager.LoadScene("SampleScene");  
     }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8672091836862550114}
   - component: {fileID: 5796663370231095539}
   - component: {fileID: -4403902757281330267}
+  - component: {fileID: 4114442293039205506}
   m_Layer: 0
   m_Name: Carton_02
   m_TagString: Untagged
@@ -112,3 +113,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.893993, y: 1.9783723, z: 4.751397}
   m_Center: {x: 0, y: 0.98928916, z: 0}
+--- !u!114 &4114442293039205506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7158904695118786999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6893f0ec3bee3a94a922a02597bf4cbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
