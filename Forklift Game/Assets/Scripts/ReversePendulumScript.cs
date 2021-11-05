@@ -19,6 +19,8 @@ public class ReversePendulumScript : MonoBehaviour
 
     void Update()
     {
+
+
         Moove();
     }
 
