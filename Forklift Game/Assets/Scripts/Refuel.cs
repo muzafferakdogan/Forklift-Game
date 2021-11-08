@@ -15,6 +15,7 @@ public class Refuel : MonoBehaviour
     void Start()
     {
         _forkliftControl = GetComponent<ForkliftControl>();
+
         _gasBarScript.SetMaxFuel(maxAmounth);
         _gasBarScript.SetFuel(currentAmounth);
         
