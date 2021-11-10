@@ -6,8 +6,8 @@ public class PendulumScript : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] private float mooveSpeed;
-    [SerializeField] private float leftAngel;
-    [SerializeField] private float rightAngel;
+    [SerializeField] private float leftAngle;
+    [SerializeField] private float rightAngle;
 
     bool moving;
 
@@ -24,12 +24,12 @@ public class PendulumScript : MonoBehaviour
 
     private void ChangeMoveDir()
     {
-        if (transform.rotation.z > rightAngel)
+        if (transform.rotation.z > rightAngle)
         {
             moving = false;
         }
 
-        if (transform.rotation.z < leftAngel)
+        if (transform.rotation.z < leftAngle)
         {
             moving = true;
         }

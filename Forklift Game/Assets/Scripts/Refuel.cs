@@ -19,7 +19,7 @@ public class Refuel : MonoBehaviour
         _gasBarScript.SetMaxFuel(maxAmounth);
         _gasBarScript.SetFuel(currentAmounth);
         
-        InvokeRepeating("ConsumeFuel", 5f, 5f);
+        InvokeRepeating(nameof(ConsumeFuel), 5f, 5f);
     }
 
     void Update()
